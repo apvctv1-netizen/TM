@@ -680,6 +680,10 @@ export type Database = {
         Args: { p_employee_id: string; p_work_date: string; p_shift_type_ids: string[] }
         Returns: Database["public"]["Tables"]["attendance_entries"]["Row"][]
       }
+      upsert_employees_bulk: {
+        Args: { p_rows: Json }
+        Returns: { employee_code: number; action: string; error_message: string | null }[]
+      }
     }
     Enums: Record<string, never>
     CompositeTypes: Record<string, never>

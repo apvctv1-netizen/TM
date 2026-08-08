@@ -20,7 +20,6 @@ export function SidebarNav({
         const isActive =
           pathname === item.href ||
           (item.href !== "/dashboard" && pathname.startsWith(`${item.href}/`));
-        const Icon = item.icon;
 
         return (
           <Link
@@ -34,7 +33,7 @@ export function SidebarNav({
                 : "text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
-            <Icon className="size-4 shrink-0" />
+            {item.icon}
             {item.label}
           </Link>
         );

@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -26,66 +26,91 @@ export type Feature =
 export type NavItem = {
   href: string;
   label: string;
-  icon: LucideIcon;
+  // Đây là JSX đã render sẵn, không phải reference tới component — mảng
+  // NavItem[] được tính ở Server Component ((app)/layout.tsx) rồi truyền
+  // xuống Client Component (SidebarNav), mà function/class component
+  // reference không serialize được qua ranh giới RSC (chỉ plain object và
+  // React element mới được).
+  icon: ReactNode;
   /** Nếu bỏ trống: mọi role đăng nhập đều thấy (vd Trang chủ). */
   feature?: Feature;
   /** Chỉ admin mới thấy, bất kể phân quyền theo feature. */
   adminOnly?: boolean;
 };
 
+const iconClassName = "size-4 shrink-0";
+
 export const managementNavItems: NavItem[] = [
-  { href: "/dashboard", label: "Trang chủ", icon: LayoutDashboard },
-  { href: "/personnel", label: "Nhân sự", icon: Users, feature: "personnel" },
+  { href: "/dashboard", label: "Trang chủ", icon: <LayoutDashboard className={iconClassName} /> },
+  {
+    href: "/personnel",
+    label: "Nhân sự",
+    icon: <Users className={iconClassName} />,
+    feature: "personnel",
+  },
   {
     href: "/attendance",
     label: "Chấm công",
-    icon: CalendarCheck,
+    icon: <CalendarCheck className={iconClassName} />,
     feature: "attendance",
   },
   {
     href: "/shift-types",
     label: "Danh mục ca trực",
-    icon: Clock,
+    icon: <Clock className={iconClassName} />,
     adminOnly: true,
   },
   {
     href: "/holidays",
     label: "Ngày Lễ / Tết",
-    icon: CalendarHeart,
+    icon: <CalendarHeart className={iconClassName} />,
     adminOnly: true,
   },
-  { href: "/payroll", label: "Bảng lương", icon: Wallet, feature: "payroll" },
+  {
+    href: "/payroll",
+    label: "Bảng lương",
+    icon: <Wallet className={iconClassName} />,
+    feature: "payroll",
+  },
   {
     href: "/payroll/settings",
     label: "Cấu hình lương",
-    icon: Settings2,
+    icon: <Settings2 className={iconClassName} />,
     feature: "payroll_settings",
   },
   {
     href: "/reports",
     label: "Báo cáo",
-    icon: FileBarChart,
+    icon: <FileBarChart className={iconClassName} />,
     feature: "reports",
   },
   {
     href: "/permissions",
     label: "Phân quyền",
-    icon: ShieldCheck,
+    icon: <ShieldCheck className={iconClassName} />,
     adminOnly: true,
   },
   {
     href: "/users",
     label: "Người dùng",
-    icon: UserCog,
+    icon: <UserCog className={iconClassName} />,
     feature: "user_management",
     adminOnly: true,
   },
 ];
 
 export const employeeNavItems: NavItem[] = [
-  { href: "/dashboard", label: "Trang chủ", icon: LayoutDashboard },
-  { href: "/me/attendance", label: "Lịch công của tôi", icon: CalendarDays },
-  { href: "/me/payslips", label: "Phiếu lương của tôi", icon: ReceiptText },
+  { href: "/dashboard", label: "Trang chủ", icon: <LayoutDashboard className={iconClassName} /> },
+  {
+    href: "/me/attendance",
+    label: "Lịch công của tôi",
+    icon: <CalendarDays className={iconClassName} />,
+  },
+  {
+    href: "/me/payslips",
+    label: "Phiếu lương của tôi",
+    icon: <ReceiptText className={iconClassName} />,
+  },
 ];
 
 /**
