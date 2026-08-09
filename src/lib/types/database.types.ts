@@ -77,6 +77,7 @@ export type Database = {
           partner_code: string | null
           position_code: string | null
           contract_type: string
+          probation_end_date: string | null
           note: string | null
           created_at: string
           updated_at: string
@@ -101,6 +102,7 @@ export type Database = {
           partner_code?: string | null
           position_code?: string | null
           contract_type?: string
+          probation_end_date?: string | null
           note?: string | null
           created_at?: string
           updated_at?: string
@@ -125,6 +127,7 @@ export type Database = {
           partner_code?: string | null
           position_code?: string | null
           contract_type?: string
+          probation_end_date?: string | null
           note?: string | null
           created_at?: string
           updated_at?: string

@@ -31,6 +31,7 @@ function toEmployeeRow(values: EmployeeFormValues) {
     partner_code: values.partner_code ?? null,
     position_code: values.position_code ?? null,
     contract_type: values.contract_type,
+    probation_end_date: values.probation_end_date ?? null,
     note: values.note ?? null,
   };
 }

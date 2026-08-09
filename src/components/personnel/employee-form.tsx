@@ -49,6 +49,7 @@ export type EmployeeFormEmployee = {
   partner_code: string | null;
   position_code: string | null;
   contract_type: string;
+  probation_end_date: string | null;
   note: string | null;
 };
 
@@ -73,6 +74,7 @@ function toDefaultValues(employee?: EmployeeFormEmployee): Partial<EmployeeFormI
     partner_code: employee.partner_code ?? undefined,
     position_code: employee.position_code ?? undefined,
     contract_type: employee.contract_type as EmployeeFormInput["contract_type"],
+    probation_end_date: employee.probation_end_date ?? "",
     note: employee.note ?? "",
   };
 }
@@ -278,6 +280,17 @@ export function EmployeeForm({
                 )}
               />
               <FieldError errors={errors.contract_type ? [errors.contract_type] : undefined} />
+            </Field>
+
+            <Field data-invalid={!!errors.probation_end_date}>
+              <FieldLabel htmlFor="probation_end_date">Ngày kết thúc thử việc</FieldLabel>
+              <Input
+                id="probation_end_date"
+                type="date"
+                aria-invalid={!!errors.probation_end_date}
+                {...register("probation_end_date")}
+              />
+              <FieldError errors={errors.probation_end_date ? [errors.probation_end_date] : undefined} />
             </Field>
           </FieldGroup>
         </CardContent>

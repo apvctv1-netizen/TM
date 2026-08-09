@@ -8,9 +8,11 @@ import type { NavItem } from "./nav-items";
 export function SidebarNav({
   items,
   onNavigate,
+  collapsed,
 }: {
   items: NavItem[];
   onNavigate?: () => void;
+  collapsed?: boolean;
 }) {
   const pathname = usePathname();
 
@@ -26,15 +28,17 @@ export function SidebarNav({
             key={item.href}
             href={item.href}
             onClick={onNavigate}
+            title={collapsed ? item.label : undefined}
             className={cn(
               "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+              collapsed && "justify-center px-2",
               isActive
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
             {item.icon}
-            {item.label}
+            {!collapsed && item.label}
           </Link>
         );
       })}

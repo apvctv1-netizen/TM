@@ -27,18 +27,18 @@ export default async function AttendancePage(props: PageProps<"/attendance">) {
     await Promise.all([
       supabase
         .from("employees")
-        .select("id, employee_code, full_name")
+        .select("id, employee_code, full_name, position_code")
         .or(`end_date.is.null,end_date.gte.${monthStart}`)
         .lte("start_date", monthEnd)
         .order("employee_code", { ascending: true }),
       supabase
         .from("shift_types")
-        .select("id, code, label, parent_group")
+        .select("id, code, label, parent_group, work_unit_fraction")
         .eq("is_active", true)
         .order("sort_order", { ascending: true }),
       supabase
         .from("attendance_entries")
-        .select("employee_id, work_date, shift_type_id")
+        .select("employee_id, work_date, shift_type_id, note")
         .gte("work_date", monthStart)
         .lte("work_date", monthEnd),
       supabase.from("holidays").select("holiday_date").gte("holiday_date", monthStart).lte("holiday_date", monthEnd),

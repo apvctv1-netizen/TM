@@ -38,11 +38,16 @@ export const employeeFormSchema = z
     partner_code: optionalText,
     position_code: optionalText,
     contract_type: z.enum(CONTRACT_TYPES),
+    probation_end_date: optionalDate,
     note: optionalText,
   })
   .refine((data) => !data.end_date || data.end_date >= data.start_date, {
     message: "Ngày kết thúc phải sau ngày bắt đầu làm việc",
     path: ["end_date"],
+  })
+  .refine((data) => !data.probation_end_date || data.probation_end_date >= data.start_date, {
+    message: "Ngày kết thúc thử việc phải sau ngày bắt đầu làm việc",
+    path: ["probation_end_date"],
   });
 
 export type EmployeeFormValues = z.infer<typeof employeeFormSchema>;

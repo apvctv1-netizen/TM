@@ -12,6 +12,7 @@ import {
   FileBarChart,
   CalendarDays,
   ReceiptText,
+  FlaskConical,
 } from "lucide-react";
 
 export type AppRole = "admin" | "hr" | "employee";
@@ -95,6 +96,12 @@ export const managementNavItems: NavItem[] = [
     label: "Người dùng",
     icon: <UserCog className={iconClassName} />,
     feature: "user_management",
+    adminOnly: true,
+  },
+  {
+    href: "/demo-data",
+    label: "Dữ liệu demo",
+    icon: <FlaskConical className={iconClassName} />,
     adminOnly: true,
   },
 ];

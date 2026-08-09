@@ -264,22 +264,27 @@ export function PayrollEntriesTable({
     <div className="rounded-xl border">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Mã NV</TableHead>
-            <TableHead>Họ tên</TableHead>
-            <TableHead>Hợp đồng</TableHead>
-            <TableHead>Tổng công</TableHead>
-            <TableHead>Tổng lương</TableHead>
-            <TableHead>Khấu trừ</TableHead>
-            <TableHead>Thực lãnh</TableHead>
-            <TableHead className="text-right">Thao tác</TableHead>
+          <TableRow className="bg-muted/50 hover:bg-muted/50">
+            <TableHead className="font-bold">Mã NV</TableHead>
+            <TableHead className="font-bold">Họ tên</TableHead>
+            <TableHead className="font-bold">Hợp đồng</TableHead>
+            <TableHead className="font-bold">Tổng công</TableHead>
+            <TableHead className="font-bold">Tổng lương</TableHead>
+            <TableHead className="font-bold">Khấu trừ</TableHead>
+            <TableHead className="font-bold">Thực lãnh</TableHead>
+            <TableHead className="text-right font-bold">Thao tác</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {entries.map((entry) => (
             <TableRow key={entry.id}>
               <TableCell>{entry.employees?.employee_code}</TableCell>
-              <TableCell className="font-medium">{entry.employees?.full_name}</TableCell>
+              <TableCell
+                className="cursor-pointer font-medium hover:text-primary hover:underline"
+                onClick={() => startTransition(() => setSelected(entry))}
+              >
+                {entry.employees?.full_name}
+              </TableCell>
               <TableCell>{entry.contract_type_snapshot}</TableCell>
               <TableCell>{entry.ctt}</TableCell>
               <TableCell>{numberFmt.format(entry.tong_luong)}</TableCell>
