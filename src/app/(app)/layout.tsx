@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentProfile } from "@/lib/auth";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -14,23 +15,13 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
+  const profile = await getCurrentProfile();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
+  if (!profile) {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("id, full_name, email, role, is_active")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  if (!profile || !profile.is_active) {
+  if (!profile.is_active) {
     redirect("/login?error=account_inactive");
   }
 
@@ -38,10 +29,11 @@ export default async function AppLayout({
   let viewableFeatures = new Set<Feature>();
 
   if (role === "hr") {
+    const supabase = await createClient();
     const { data: permissions } = await supabase
       .from("user_permissions")
       .select("feature")
-      .eq("user_id", user.id)
+      .eq("user_id", profile.id)
       .eq("can_view", true);
     viewableFeatures = new Set((permissions ?? []).map((p) => p.feature as Feature));
   }

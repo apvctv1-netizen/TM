@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Users, CalendarCheck, Wallet, CalendarDays, ReceiptText, ArrowRight, LayoutDashboard } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentProfile } from "@/lib/auth";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
@@ -18,24 +19,16 @@ const PERIOD_STATUS_LABEL: Record<string, string> = {
 };
 
 export default async function DashboardPage() {
+  const profile = await getCurrentProfile();
+  if (!profile) redirect("/login");
+
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role, full_name, employee_id")
-    .eq("id", user.id)
-    .single();
-
-  const role = profile?.role ?? "employee";
+  const role = profile.role ?? "employee";
 
   const header = (
     <div>
       <h1 className="text-2xl font-semibold tracking-tight">Trang chủ</h1>
-      <p className="text-sm text-muted-foreground">Xin chào, {profile?.full_name ?? user.email}</p>
+      <p className="text-sm text-muted-foreground">Xin chào, {profile.full_name ?? profile.email}</p>
     </div>
   );
 
