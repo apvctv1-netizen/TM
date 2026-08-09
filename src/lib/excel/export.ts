@@ -82,6 +82,13 @@ export function buildPersonnelWorkbook(
   return XLSX.write(workbook, { type: "buffer", bookType: "xlsx" }) as Buffer;
 }
 
+// File mẫu để nhập mới — chỉ có header, tái dùng buildPersonnelWorkbook với 0
+// dòng để đảm bảo layout cột luôn khớp 100% với những gì dsns-import.ts chấp
+// nhận (không phải duy trì 2 danh sách cột riêng biệt).
+export function buildPersonnelTemplateWorkbook(): Buffer {
+  return buildPersonnelWorkbook([], new Map(), new Map());
+}
+
 type PayrollExportRow = {
   employee_code: number;
   full_name: string;

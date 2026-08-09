@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { FileSpreadsheet, Upload } from "lucide-react";
+import { Download, FileSpreadsheet, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 import { parseDsnsFile, validateAgainstLookups, type ParsedImportRow } from "@/lib/excel/dsns-import";
@@ -116,6 +116,14 @@ export function ImportWizard({
     <div className="flex flex-col gap-4">
       <Card>
         <CardContent className="flex flex-col gap-3 pt-6">
+          <div className="flex justify-end">
+            <Button variant="outline" size="sm" asChild>
+              <a href="/api/personnel/template" download>
+                <Download data-icon="inline-start" />
+                Tải file mẫu
+              </a>
+            </Button>
+          </div>
           <label
             htmlFor="dsns-file"
             className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed p-8 text-center hover:bg-muted/50"
